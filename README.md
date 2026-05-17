@@ -3,34 +3,39 @@
 ![Skript in Aktion](img/1.png)
 <img width="1115" height="628" alt="3" src="https://github.com/user-attachments/assets/1c4541c5-87d1-4a9d-996d-1f654757cb58" />
 
-### 💡 Motivation & Ziel
-Ich habe vor ein paar Tagen einen Metin2 Server zum Üben und Testen aufgesetzt. Damit ich nicht jedes Mal VirtualBox manuell starten, dort die Logindaten und noch einige andere Befehle eingeben muss, damit der Server komplett online geht, habe ich dieses kleine Skript geschrieben. Es automatisiert den gesamten Prozess von der Virtualisierungsebene bis zum Start der Anwendungsdienste – ein klassisches Beispiel für **Infrastructure-as-Code** im kleinen Maßstab.
+# Metin2 Server Start-Skript
 
-### 🛠️ Eingesetzte Technologien & Skills
-* **Scripting:** Batch / CMD
-* **Virtualisierung:** VirtualBox CLI (`VBoxManage.exe`)
-* **Netzwerk & Sicherheit:** SSH-Protokoll, Public-Key-Authentifizierung (RSA)
-* **Prozesssteuerung:** Automatisierte Ausführung von Shell-Commands (FreeBSD/tcsh) auf Remote-Systemen.
+Ein einfaches Batch-Skript, das eine VirtualBox-VM im Hintergrund startet und anschließend die Server-Dienste über SSH hochfährt.
+
+### Motivation & Ziel
+Ich habe mir einen Metin2 Server zum Üben und Testen aufgesetzt. Da es auf Dauer nervig ist, jedes Mal VirtualBox manuell zu öffnen, die VM zu starten, zu warten und dann per Hand die Login-Daten sowie die Startbefehle einzutippen, habe ich diesen Ablauf automatisiert. Das Skript übernimmt den kompletten Startprozess vom Klick in Windows bis zum fertigen Server-Dienst.
+
+### Eingesetzte Technologien & Skills
+* **Scripting:** Windows Batch (CMD) mit erweiterter Errorlevel-Validierung
+* **Virtualisierung:** Oracle VirtualBox CLI (VBoxManage.exe) für Headless-Operationen
+* **Netzwerk & Sicherheit:** OpenSSH-Protokoll, Public-Key-Authentifizierung (RSA)
+* **Prozesssteuerung:** Automatisierte Remote-Ausführung von Shell-Befehlen (FreeBSD / tcsh) und MariaDB/SQL-Diensten
 
 ---
 
-## ⚙️ Kernfunktionen
-* **Intelligenter VM-Start:** Das Skript prüft über `errorlevel`-Abfragen, ob die virtuelle Maschine bereits läuft, um redundante Startversuche und Fehler zu vermeiden.
-* **Headless-Steuerung via SSH:** Loggt sich eigenständig auf dem FreeBSD-System ein und initialisiert die Server-Prozesse (`game; m2`).
-* **Status-Feedback:** Sauberes Konsolen-Feedback mit Timestamps (`%time%`) für leichtes Monitoring.
+## Kernfunktionen
+* **Zustandsprüfung der Virtualisierung:** Das Skript prüft vor der Ausführung den Zustand der VM via CLI, um redundante Startversuche oder Systemkonflikte proaktiv zu verhindern.
+* **Headless-Betrieb:** Die virtuelle Maschine wird ressourcenschonend im Hintergrund (Headless-Modus) gestartet.
+* **Automatisierte Remote-Initialisierung:** Nach erfolgreichem Netzwerk-Handshake erfolgt der passwortlose Login auf dem FreeBSD-System, um die Server- und Datenbank-Prozesse (`game; m2`) autonom zu starten.
+* **Protokollierung & Monitoring:** Jede Phase des Boot- und Startvorgangs wird mit präzisen Zeitstempeln (`%time%`) in der Konsole ausgegeben, um ein transparentes Logging zu gewährleisten.
 
-## 🚀 Systemvoraussetzungen
+## Systemvoraussetzungen
 1. **Oracle VirtualBox** (Standardpfad vorausgesetzt).
-2. **Windows 10/11** mit aktiviertem OpenSSH-Client.
+2. **Windows 10/11** mit nativem OpenSSH-Client.
 3. **SSH-Schlüsselpaar (RSA)** für den passwortlosen Login.
 
-## 🔑 Setup: SSH-Key (Login ohne Passwort)
+## Setup: SSH-Key (Login ohne Passwort)
 
-Damit die Automatisierung nicht durch Passwortabfragen blockiert wird, muss der Windows-Host am FreeBSD-Server authentifiziert werden.
+Um eine unterbrechungsfreie Automatisierung zu gewährleisten, muss die Authentifizierung über ein kryptografisches Schlüsselpaar statt über eine interaktive Passworteingabe erfolgen.
 
 **1. Key generieren (Windows PowerShell):**
 
-```bash
+```powershell
 ssh-keygen -t rsa -b 4096
 ```
 
@@ -39,19 +44,20 @@ ssh-keygen -t rsa -b 4096
 **2. Public Key auf den Server übertragen:**
 
 ```bash
-ssh-copy-id root@192.168.178.55
+ssh-copy-id root@HIER IP EINGEBEN
 ```
 
 *Alternativ:* Kopiere den Inhalt deiner `id_rsa.pub` manuell in die Datei `/root/.ssh/authorized_keys` auf deinem Server.
 
 ---
 
-## 📦 Installation & Nutzung
+## Installation & Nutzung
+
 1. **Datei vorbereiten:** Lade die Datei `Server_Start.bat` herunter.
-2. **Konfiguration:** Öffne die Datei in einem Texteditor und passe die Variablen an:
-   * `SERVER_IP`: Die IP deines lokalen Servers.
-   * `VM_NAME`: Der Name der Maschine in VirtualBox.
+2. **Konfiguration:** Öffne die Datei in einem Texteditor und passe die Variablen im Kopfbereich an:
+   * `SERVER_IP`: Die IP-Adresse Ihres FreeBSD-Servers.
+   * `VM_NAME`: Der exakte Name der virtuelle Maschine innerhalb von VirtualBox.
 3. **Start:** Führe die `.bat`-Datei einfach mit einem Doppelklick aus.
 
 ---
-*Entwickelt von denneonblue – Fokus auf pragmatische IT-Lösungen und Prozessautomatisierung.*
+*Entwickelt von denneonblue – Systemnahe Automatisierung und Infrastruktur-Integrität im praktischen Einsatz.*
