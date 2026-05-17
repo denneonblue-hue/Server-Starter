@@ -3,7 +3,7 @@
 ![Skript in Aktion](img/1.png)
 <img width="1115" height="628" alt="3" src="https://github.com/user-attachments/assets/1c4541c5-87d1-4a9d-996d-1f654757cb58" />
 
-# Metin2 Server Start-Skript
+# Server Start-Skript
 
 Ein einfaches Batch-Skript, das eine VirtualBox-VM im Hintergrund startet und anschließend die Server-Dienste über SSH hochfährt.
 
