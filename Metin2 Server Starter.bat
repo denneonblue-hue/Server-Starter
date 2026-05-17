@@ -5,7 +5,7 @@ color 0b
 :: 1. Pfade festlegen
 set VBOX_PATH="C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"
 set VM_NAME="Metin2Server"
-set SERVER_IP=192.168.178.55
+set SERVER_IP=SERVER_IP 
 
 echo ============================================
 echo   Metin2 Server Start-Automatisierung
