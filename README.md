@@ -1,7 +1,6 @@
 # Server Starter
 
 ![Skript in Aktion](img/1.png)
-![Skript in Aktion](img/2.png)
 
 ### 💡 Motivation & Ziel
 Ich habe vor ein paar Tagen einen Metin2 Server zum Üben und Testen aufgesetzt. Damit ich nicht jedes Mal VirtualBox manuell starten, dort die Logindaten und noch einige andere Befehle eingeben muss, damit der Server komplett online geht, habe ich dieses kleine Skript geschrieben. Es automatisiert den gesamten Prozess von der Virtualisierungsebene bis zum Start der Anwendungsdienste – ein klassisches Beispiel für **Infrastructure-as-Code** im kleinen Maßstab.
